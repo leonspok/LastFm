@@ -690,7 +690,7 @@
 
 #pragma mark Track methods
 
-- (NSOperation *)getInfoForTrack:(NSString *)title artist:(NSString *)artist successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
+- (NSOperation *)getInfoForTrack:(NSString *)title artist:(NSString *)artist autocorrect:(BOOL)autocorrect successHandler:(LastFmReturnBlockWithDictionary)successHandler failureHandler:(LastFmReturnBlockWithError)failureHandler {
     NSDictionary *mappingObject = @{
         @"name": @[ @"./name", @"NSString" ],
         @"listeners": @[ @"./listeners", @"NSNumber" ],
@@ -708,7 +708,9 @@
 
     return [self performApiCallForMethod:@"track.getInfo"
                                 useCache:[self useCache]
-                              withParams:@{ @"track": [self forceString:title], @"artist": [self forceString:artist] }
+                              withParams:@{ @"track": [self forceString:title],
+                                            @"artist": [self forceString:artist],
+                                            @"autocorrect": (autocorrect? [self forceString:@"1"] : [self forceString:@"0"]) }
                                rootXpath:@"./track"
                         returnDictionary:YES
                            mappingObject:mappingObject
